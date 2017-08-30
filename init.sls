@@ -14,6 +14,9 @@ ffmpeg-static:
     - options: --strip-components 1
     - enforce_toplevel: false
 
+dcraw:
+  pkg.installed: []
+
 serviio-files:
   archive.extracted:
     - name: /opt/serviio
@@ -41,6 +44,7 @@ serviio:
       - archive: serviio-files
       - file: serviio-files
       - archive: ffmpeg-static
+      - pkg: dcraw
       - pkg: java
   service.running:
     - enable: true
