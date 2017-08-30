@@ -4,6 +4,16 @@ java:
   pkg.installed:
     - name: default-jre-headless
 
+ffmpeg-static:
+  archive.extracted:
+    - name: /opt/ffmpeg
+    - source: https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-{% if grains['osarch'] == "amd64" %}64{% else %}32{% endif %}bit-static.tar.xz
+    - source_hash: https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-{% if grains['osarch'] == "amd64" %}64{% else %}32{% endif %}bit-static.tar.xz.md5
+    - keep: true
+    - clean: true
+    - options: --strip-components 1
+    - enforce_toplevel: false
+
 serviio-files:
   archive.extracted:
     - name: /opt/serviio
@@ -30,6 +40,7 @@ serviio:
     - require:
       - archive: serviio-files
       - file: serviio-files
+      - archive: ffmpeg-static
       - pkg: java
   service.running:
     - enable: true

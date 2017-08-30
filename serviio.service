@@ -11,7 +11,7 @@ ExecStart=/usr/bin/java \
 	-Dderby.system.home=/var/lib/serviio/library \
 	-Dderby.stream.error.file=/var/log/serviio/derby.log \
 	-Dserviio.home=/var/lib/serviio \
-	-Dffmpeg.location=ffmpeg \
+	-Dffmpeg.location=/opt/ffmpeg/ffmpeg \
 	-Ddcraw.location=dcraw \
 	-classpath /opt/serviio/lib/*:/opt/serviio/config \
 	org.serviio.MediaServer
