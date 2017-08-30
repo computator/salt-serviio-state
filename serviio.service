@@ -1,0 +1,23 @@
+[Unit]
+Description=Serviio DLNA Media Server
+
+[Service]
+ExecStart=/usr/bin/java \
+	-Xmx512M -Xms20M -XX:+UseG1GC -XX:GCTimeRatio=1 -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 \
+	-Djava.net.preferIPv4Stack=true \
+	-Djava.awt.headless=true \
+	-Dorg.restlet.engine.loggerFacadeClass=org.restlet.ext.slf4j.Slf4jLoggerFacade \
+	-Duser.home=/var/lib/serviio \
+	-Dderby.system.home=/var/lib/serviio/library \
+	-Dderby.stream.error.file=/var/log/serviio/derby.log \
+	-Dserviio.home=/var/lib/serviio \
+	-Dffmpeg.location=ffmpeg \
+	-Ddcraw.location=dcraw \
+	-classpath /opt/serviio/lib/*:/opt/serviio/config \
+	org.serviio.MediaServer
+KillMode=mixed
+Restart=on-failure
+RestartPreventExitStatus=127
+
+[Install]
+WantedBy=multi-user.target
