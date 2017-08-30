@@ -18,6 +18,8 @@ ExecStart=/usr/bin/java \
 KillMode=mixed
 Restart=on-failure
 RestartPreventExitStatus=127
+SuccessExitStatus=130 143
+SyslogIdentifier=serviio
 
 [Install]
 WantedBy=multi-user.target
