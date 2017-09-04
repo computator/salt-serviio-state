@@ -5,6 +5,14 @@ log = logging.getLogger(__name__)
 DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 23423
 
+SHARED_FOLDER_TPL = {
+    'folderPath': '',
+    'supportedFileTypes': ['IMAGE'],
+    'descriptiveMetadataSupported': True,
+    'accessGroupIds': [1],
+    'usePoller': False
+}
+
 def _api_get(method, host=DEFAULT_HOST, port=DEFAULT_PORT, **kwargs):
     url = 'http://{0}:{1}/rest/{2}'.format(host, port, method)
     log.info("Calling URL '%s'", url)
@@ -28,4 +36,5 @@ def get_library(**kwargs):
     return _api_get('repository', **kwargs)['sharedFolders']
 
 def set_library(library, **kwargs):
+    library = map(lambda folder: dict(SHARED_FOLDER_TPL, **folder), library)
     return _api_set('repository', {'sharedFolders': library}, **kwargs)
