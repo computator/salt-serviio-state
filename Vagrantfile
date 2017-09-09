@@ -6,6 +6,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/srv/salt/serviio"
   config.vm.synced_folder "_modules", "/srv/salt/_modules"
+  config.vm.synced_folder "_states", "/srv/salt/_states"
 
   config.vm.provision "salt"
   config.vm.provision "salt-local", type: "shell", inline: "sed -ri '/^#?file_client:/ c file_client: local' /etc/salt/minion"
