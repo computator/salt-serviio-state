@@ -6,8 +6,8 @@ DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 23423
 
 SHARED_FOLDER_TPL = {
-    'folderPath': '',
-    'supportedFileTypes': ['IMAGE'],
+    'folderPath': u'',
+    'supportedFileTypes': [u'IMAGE'],
     'descriptiveMetadataSupported': True,
     'accessGroupIds': [1],
     'usePoller': False
