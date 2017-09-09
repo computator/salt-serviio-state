@@ -9,7 +9,15 @@ def library(name, library, **kwargs):
             'comment': '',
         }
 
-    if not __salt__['serviio.update_library'](library, test=True, **kwargs):
+    raw_lib = []
+    for item in library:
+        if isinstance(item, str):
+            raw_lib.append({'folderPath': item})
+        else:
+            path, options = item.popitem()
+            raw_lib.append(dict({'folderPath': path}, **options))
+
+    if not __salt__['serviio.update_library'](raw_lib, test=True, **kwargs):
         ret.update(comment="Library is already up to date", result=True)
         return ret
 
@@ -17,11 +25,11 @@ def library(name, library, **kwargs):
     log.trace("Current library: %s", curr_lib)
 
     if not __opts__['test']:
-        __salt__['serviio.update_library'](library, **kwargs)
+        __salt__['serviio.update_library'](raw_lib, **kwargs)
         updated_lib = __salt__['serviio.get_library'](**kwargs)
 
     old = {folder['folderPath']: folder for folder in curr_lib}
-    new = {folder['folderPath']: folder for folder in (updated_lib if not __opts__['test'] else library)}
+    new = {folder['folderPath']: folder for folder in (updated_lib if not __opts__['test'] else raw_lib)}
     log.trace("Original library options: %s", old)
     log.trace("Updated library options: %s", new)
 
