@@ -12,10 +12,10 @@ def library(name, library, **kwargs):
     raw_lib = []
     for item in library:
         if isinstance(item, str):
-            raw_lib.append({'folderPath': item})
+            raw_lib.append({'folderPath': item.decode(__salt_system_encoding__)})
         else:
             path, options = item.popitem()
-            raw_lib.append(dict({'folderPath': path}, **options))
+            raw_lib.append(dict({'folderPath': path.decode(__salt_system_encoding__)}, **options))
 
     if not __salt__['serviio.update_library'](raw_lib, test=True, **kwargs):
         ret.update(comment="Library is already up to date", result=True)
