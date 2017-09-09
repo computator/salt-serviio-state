@@ -8,7 +8,7 @@ DEFAULT_PORT = 23423
 
 SHARED_FOLDER_TPL = {
     'folderPath': u'',
-    'supportedFileTypes': [u'IMAGE'],
+    'supportedFileTypes': [u'VIDEO'],
     'descriptiveMetadataSupported': True,
     'accessGroupIds': [1],
     'usePoller': False
