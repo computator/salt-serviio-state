@@ -48,5 +48,6 @@ serviio:
       - pkg: java
   service.running:
     - enable: true
+    - init_delay: 2
     - require:
       - file: serviio
