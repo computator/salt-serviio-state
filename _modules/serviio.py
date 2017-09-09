@@ -39,14 +39,19 @@ def set_library(library, **kwargs):
     library = map(lambda folder: dict(SHARED_FOLDER_TPL, **folder), library)
     return _api_set('repository', {'sharedFolders': library}, **kwargs)
 
-def update_library(library, **kwargs):
+def update_library(library, test=False, **kwargs):
+    library = map(lambda folder: dict(SHARED_FOLDER_TPL, **folder), library)
     old_data = get_library(**kwargs)
-    old_data = {folder['folderPath']: folder for folder in old_data}
+    tmp_data = {folder['folderPath']: folder.copy() for folder in old_data}
     new_data = []
     for folder in library:
-        if folder['folderPath'] in old_data:
-            old_data[folder['folderPath']].update(folder)
-            folder = old_data[folder['folderPath']]
-            del old_data[folder['folderPath']]
+        if folder['folderPath'] in tmp_data:
+            tmp_data[folder['folderPath']].update(folder)
+            folder = tmp_data[folder['folderPath']]
+            del tmp_data[folder['folderPath']]
         new_data.append(folder)
+    if test:
+        log.trace("Old: %s", old_data)
+        log.trace("New: %s", new_data)
+        return old_data != new_data
     return set_library(new_data, **kwargs)
