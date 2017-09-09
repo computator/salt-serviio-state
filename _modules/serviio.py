@@ -1,4 +1,5 @@
 import requests
+import salt.exceptions
 import logging
 log = logging.getLogger(__name__)
 
@@ -12,6 +13,11 @@ SHARED_FOLDER_TPL = {
     'accessGroupIds': [1],
     'usePoller': False
 }
+
+_VALID_FOLDER_KEYS = set((
+    'id',
+    'available'
+)).union(SHARED_FOLDER_TPL.keys())
 
 def _api_get(method, host=DEFAULT_HOST, port=DEFAULT_PORT, **kwargs):
     url = 'http://{0}:{1}/rest/{2}'.format(host, port, method)
@@ -37,10 +43,18 @@ def get_library(**kwargs):
 
 def set_library(library, **kwargs):
     library = map(lambda folder: dict(SHARED_FOLDER_TPL, **folder), library)
+    for folder in library:
+        for key in folder.keys():
+            if key not in _VALID_FOLDER_KEYS:
+                raise salt.exceptions.SaltInvocationError("Invalid library item option '{0}' specified".format(key))
     return _api_set('repository', {'sharedFolders': library}, **kwargs)
 
 def update_library(library, test=False, **kwargs):
     library = map(lambda folder: dict(SHARED_FOLDER_TPL, **folder), library)
+    for folder in library:
+        for key in folder.keys():
+            if key not in _VALID_FOLDER_KEYS:
+                raise salt.exceptions.SaltInvocationError("Invalid library item option '{0}' specified".format(key))
     old_data = get_library(**kwargs)
     tmp_data = {folder['folderPath']: folder.copy() for folder in old_data}
     new_data = []
