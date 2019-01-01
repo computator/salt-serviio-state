@@ -51,3 +51,6 @@ serviio:
     - init_delay: 2
     - require:
       - file: serviio
+    - watch:
+      - archive: serviio-files
+      - file: serviio-files
