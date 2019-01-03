@@ -11,7 +11,7 @@ def library(name, library, **kwargs):
 
     raw_lib = []
     for item in library:
-        if isinstance(item, str):
+        if isinstance(item, (str, unicode)):
             raw_lib.append({'folderPath': item.decode(__salt_system_encoding__)})
         else:
             path, options = item.popitem()
