@@ -37,7 +37,7 @@ serviio-files:
 
 serviio:
   file.managed:
-    - name: /usr/local/lib/systemd/system/serviio.service
+    - name: /etc/systemd/system/serviio.service
     - source: salt://serviio/serviio.service
     - makedirs: true
     - require:
