@@ -2,7 +2,8 @@
 Description=Serviio DLNA Media Server
 
 [Service]
-ExecStart=/usr/bin/java \
+Environment=JAVA=/usr/bin/java
+ExecStart=${JAVA} \
 	-Xmx512M -Xms20M -XX:+UseG1GC -XX:GCTimeRatio=1 -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 \
 	-Djava.net.preferIPv4Stack=true \
 	-Djava.awt.headless=true \
